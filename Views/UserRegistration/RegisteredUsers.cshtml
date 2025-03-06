@@ -1,0 +1,37 @@
+@model IEnumerable<StudentRegistration.Models.User>
+
+<h2>All Registered Users</h2>
+
+<form asp-action="RegisteredUsers" method="get">
+    <div>
+        <label>Search by NRIC or Name:</label>
+        <input type="text" name="searchTerm" />
+        <button type="submit">Search</button>
+    </div>
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>S/N</th>
+            <th>NRIC</th>
+            <th>Name</th>
+            <th>Gender</th>
+            <th>Age</th>
+            <th>No. of Subjects</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.id</td>
+                <td>@Html.ActionLink(user.nric, "Edit", new { id = user.id })</td>
+                <td>@user.name</td>
+                <td>@user.gender</td>
+                <td>@(DateTime.Now.Year - user.birthday.Year)</td>
+                <td>@(user.subjects?.Split(',').Length ?? 0)</td>
+            </tr>
+        }
+    </tbody>
+</table>
